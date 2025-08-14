@@ -1,0 +1,10 @@
+输入数据包含三个文件：
+表面变量输入文件“surface_aurora.nc”，
+高空变量输入文件“air_aurora.nc”，
+一个静态变量文件“aurora-0.25-static.pickle”。 
+输出包含两个文件：
+表面输出文件“surface_prediction.nc”，
+高空输出文件“air_prediction.nc”。
+应用的模型权重是“aurora-0.25-12h-pretrained.ckpt”。
+以下是包含测试数据输入与输出、静态变量以及应用的模型权重的链接。
+  https://pan.baidu.com/s/16knccuxv5WG5qP_cGExQZQ   提取码: tnp6 
