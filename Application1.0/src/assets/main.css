@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+:root {
+  --primary-color: #2C7BE5;
+  --primary-color-darker: #205EBC; /* WCAG AA Compliant Blue */
+  --success-color: #28a745;
+  --success-color-darker: #1E7E34; /* WCAG AA Compliant Green */
+  --danger-color: #FF3B30;
+  --danger-color-darker: #D92D20; /* WCAG AA Compliant Red */
+
+  --text-color: #333;
+  --text-color-light: #555;
+  --border-color: #e0e6ed;
+  --background-color: #f8f9fa;
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-color);
+  background-color: #fff;
+  font-size: 16px; /* 推荐的最小正文字号 */
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  font-weight: 700;
+}
+
+/* 定义排版尺度 */
+h1 { font-size: 32px; }
+h2 { font-size: 24px; }
+h3 { font-size: 18px; font-weight: 500; }
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
