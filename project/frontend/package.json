@@ -1,0 +1,27 @@
+{
+  "name": "tiaozhanbei-frontend",
+  "version": "1.0.0",
+  "description": "智枢应急管理系统前端模块",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "vite preview --port 3000"
+  },
+  "dependencies": {
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.0",
+    "vite": "^4.3.0"
+  },
+  "keywords": [
+    "vue",
+    "emergency-management",
+    "mcp",
+    "workflow"
+  ],
+  "author": "智枢应急管理系统团队",
+  "license": "MIT"
+}

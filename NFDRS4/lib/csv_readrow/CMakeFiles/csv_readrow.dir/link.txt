@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../libcsv_readrow.a  CMakeFiles/csv_readrow.dir/src/csv_readrow.cpp.o
+/usr/bin/ranlib ../libcsv_readrow.a

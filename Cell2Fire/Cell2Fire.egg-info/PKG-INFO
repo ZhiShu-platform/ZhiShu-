@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: Cell2Fire
+Version: 0.2
+Summary: Fire Simulator for Harvest and Fuel Management Planning
+Home-page: https://github.com/cell2Fire/Cell2Fire
+Author: Cristobal Pais, Jaime Carrasco, David Martell, David L. Woodruff, Andres Weintraub
+Author-email: dlwoodruff@ucdavis.edu
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Requires-Dist: tqdm
+Requires-Dist: opencv-python
+Requires-Dist: networkx
+Requires-Dist: deap
+Provides-Extra: doc
+Requires-Dist: sphinx_rtd_theme; extra == "doc"
+Requires-Dist: sphinx; extra == "doc"
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: summary

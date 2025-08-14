@@ -1,0 +1,54 @@
+{
+  "name": "tiaozhanbei-mcp-workflow-system",
+  "version": "1.0.0",
+  "description": "智枢应急管理系统 - MCP智能体工作流管理平台",
+  "main": "backend/server.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node backend/server.js",
+    "start:backend": "node backend/server.js",
+    "start:frontend": "vite",
+    "start:all": "./start_system.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "workflow",
+    "emergency-management",
+    "disaster-response",
+    "ai-agent",
+    "vue",
+    "nodejs"
+  ],
+  "author": "智枢团队",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "pg": "^8.11.3",
+    "bcryptjs": "^2.4.3",
+    "node-fetch": "^2.7.0",
+    "abort-controller": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.4.0",
+    "vite": "^4.4.11",
+    "vue": "^3.3.4"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tiaozhanbei/mcp-workflow-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tiaozhanbei/mcp-workflow-system/issues"
+  },
+  "homepage": "https://github.com/tiaozhanbei/mcp-workflow-system#readme"
+}

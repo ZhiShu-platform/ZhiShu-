@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/FireWxConverter.dir/src/FireWxConverter.cpp.o  -o ../../bin/FireWxConverter  ../../lib/libfw21.a ../../lib/libcsv_readrow.a ../../lib/libutctime.a ../../lib/libtime64.a 

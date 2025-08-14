@@ -1,0 +1,16 @@
+/usr/local/lib/libNFDRS4.a
+/usr/local/lib/libfw21.a
+/usr/local/include/time64.h
+/usr/local/include/time64_config.h
+/usr/local/include/time64_limits.h
+/usr/local/include/utctime.h
+/usr/local/include/nfdrs4.h
+/usr/local/include/deadfuelmoisture.h
+/usr/local/include/dfmcalcstate.h
+/usr/local/include/lfmcalcstate.h
+/usr/local/include/livefuelmoisture.h
+/usr/local/include/nfdrs4calcstate.h
+/usr/local/include/nfdrs4statesizes.h
+/usr/local/include/fw21.h
+/usr/local/bin/NFDRS4_cli
+/usr/local/bin/FireWxConverter

@@ -1,0 +1,215 @@
+groups:
+  - name: emergency_management_alerts
+    rules:
+      # 数据库连接告警
+      - alert: PostgreSQLConnectionDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: database
+        annotations:
+          summary: "PostgreSQL数据库连接失败"
+          description: "PostgreSQL数据库 {{ $labels.instance }} 无法连接"
+
+      - alert: RedisConnectionDown
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: cache
+        annotations:
+          summary: "Redis连接失败"
+          description: "Redis服务 {{ $labels.instance }} 无法连接"
+
+      # MCP服务告警
+      - alert: MCPServiceDown
+        expr: up{job=~"mcp-.*"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          service: mcp
+        annotations:
+          summary: "MCP服务不可用"
+          description: "MCP服务 {{ $labels.job }} 在 {{ $labels.instance }} 上不可用"
+
+      - alert: MCPServiceHighLatency
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=~"mcp-.*"}[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+          service: mcp
+        annotations:
+          summary: "MCP服务响应延迟过高"
+          description: "MCP服务 {{ $labels.job }} 95%响应时间超过2秒"
+
+      # 应用性能告警
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          service: application
+        annotations:
+          summary: "应用错误率过高"
+          description: "应用 {{ $labels.job }} 错误率超过5%"
+
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 5
+        for: 5m
+        labels:
+          severity: warning
+          service: application
+        annotations:
+          summary: "应用响应时间过长"
+          description: "应用 {{ $labels.job }} 95%响应时间超过5秒"
+
+      # 系统资源告警
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "CPU使用率过高"
+          description: "实例 {{ $labels.instance }} CPU使用率超过80%"
+
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "内存使用率过高"
+          description: "实例 {{ $labels.instance }} 内存使用率超过85%"
+
+      - alert: HighDiskUsage
+        expr: (node_filesystem_size_bytes - node_filesystem_free_bytes) / node_filesystem_size_bytes * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "磁盘使用率过高"
+          description: "实例 {{ $labels.instance }} 磁盘使用率超过85%"
+
+      # 数据库性能告警
+      - alert: PostgreSQLSlowQueries
+        expr: rate(pg_stat_activity_max_tx_duration{datname!=""}[5m]) > 30
+        for: 5m
+        labels:
+          severity: warning
+          service: database
+        annotations:
+          summary: "PostgreSQL慢查询过多"
+          description: "数据库 {{ $labels.datname }} 慢查询率过高"
+
+      - alert: PostgreSQLHighConnections
+        expr: pg_stat_activity_count / pg_settings_max_connections * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: database
+        annotations:
+          summary: "PostgreSQL连接数过高"
+          description: "数据库连接数使用率超过80%"
+
+      # 容器告警
+      - alert: ContainerDown
+        expr: absent(container_last_seen)
+        for: 5m
+        labels:
+          severity: critical
+          service: container
+        annotations:
+          summary: "容器不可用"
+          description: "容器 {{ $labels.name }} 不可用"
+
+      - alert: ContainerHighMemoryUsage
+        expr: (container_memory_usage_bytes / container_spec_memory_limit_bytes * 100) > 85
+        for: 5m
+        labels:
+          severity: warning
+          service: container
+        annotations:
+          summary: "容器内存使用率过高"
+          description: "容器 {{ $labels.name }} 内存使用率超过85%"
+
+      - alert: ContainerHighCPUUsage
+        expr: (rate(container_cpu_usage_seconds_total[5m]) / container_spec_cpu_quota * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: container
+        annotations:
+          summary: "容器CPU使用率过高"
+          description: "容器 {{ $labels.name }} CPU使用率超过80%"
+
+      # 业务指标告警
+      - alert: HighDisasterEventRate
+        expr: rate(disaster_events_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: critical
+          service: business
+        annotations:
+          summary: "灾害事件频率过高"
+          description: "灾害事件发生频率超过每分钟10次"
+
+      - alert: RiskAssessmentDelay
+        expr: time() - risk_assessment_last_update > 3600
+        for: 10m
+        labels:
+          severity: warning
+          service: business
+        annotations:
+          summary: "风险评估数据延迟"
+          description: "风险评估数据超过1小时未更新"
+
+      - alert: WorkflowExecutionFailure
+        expr: rate(workflow_executions_failed_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+          service: business
+        annotations:
+          summary: "工作流执行失败率过高"
+          description: "工作流执行失败率超过10%"
+
+      # 网络告警
+      - alert: NetworkHighLatency
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+          service: network
+        annotations:
+          summary: "网络延迟过高"
+          description: "网络请求95%延迟超过1秒"
+
+      - alert: NetworkHighErrorRate
+        expr: rate(http_requests_total{status=~"4..|5.."}[5m]) / rate(http_requests_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: network
+        annotations:
+          summary: "网络错误率过高"
+          description: "网络请求错误率超过10%"
+
+  - name: emergency_management_info
+    rules:
+      # 信息性规则
+      - record: disaster_events_total
+        expr: count(disaster_events)
+
+      - record: risk_assessments_total
+        expr: count(risk_assessment)
+
+      - record: active_workflows
+        expr: count(workflow_executions{status="running"})
+
+      - record: mcp_services_healthy
+        expr: count(up{job=~"mcp-.*"} == 1)

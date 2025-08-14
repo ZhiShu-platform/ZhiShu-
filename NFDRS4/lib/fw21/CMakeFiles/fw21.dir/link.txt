@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../libfw21.a  CMakeFiles/fw21.dir/src/fw21.cpp.o
+/usr/bin/ranlib ../libfw21.a

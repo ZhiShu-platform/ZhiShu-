@@ -1,0 +1,186 @@
+# MCP服务配置文件
+services:
+  climada:
+    type: conda
+    host: /data/Tiaozhanbei/Climada
+    port: 8001
+    environment: Climada
+    enabled: true
+    health_check_url: http://localhost:8001/health
+    timeout: 300
+    retry_count: 3
+    metadata:
+      description: "CLIMADA气候灾害影响评估模型"
+      category: "climate_risk"
+      tools:
+        - climada_impact_assessment
+        - climada_hazard_modeling
+        - climada_exposure_analysis
+        - climada_cost_benefit
+        - climada_uncertainty_analysis
+
+  lisflood:
+    type: conda
+    host: /data/Tiaozhanbei/Lisflood
+    port: 8002
+    environment: Lisflood
+    enabled: true
+    health_check_url: http://localhost:8002/health
+    timeout: 600
+    retry_count: 3
+    metadata:
+      description: "LISFLOOD洪水仿真模型"
+      category: "hydrology"
+      tools:
+        - lisflood_simulation
+        - lisflood_forecast
+        - lisflood_water_balance
+        - lisflood_routing
+        - lisflood_calibration
+
+  pangu_weather:
+    type: docker
+    host: /data/Tiaozhanbei/Pangu_weather
+    port: 8003
+    enabled: true
+    health_check_url: http://localhost:8003/health
+    timeout: 180
+    retry_count: 2
+    metadata:
+      description: "Pangu-Weather天气预测模型"
+      category: "weather"
+      tools:
+        - weather_forecast
+        - extreme_weather_detection
+        - climate_analysis
+
+  nfdrs4:
+    type: docker
+    host: /data/Tiaozhanbei/NFDRS4
+    port: 8004
+    enabled: true
+    health_check_url: http://localhost:8004/health
+    timeout: 120
+    retry_count: 2
+    metadata:
+      description: "NFDRS4森林火灾风险评估模型"
+      category: "fire_risk"
+      tools:
+        - fire_danger_calculation
+        - fuel_moisture_analysis
+        - fire_weather_index
+
+  cell2fire:
+    type: docker
+    host: /data/Tiaozhanbei/Cell2Fire
+    port: 8005
+    enabled: true
+    health_check_url: http://localhost:8005/health
+    timeout: 900
+    retry_count: 2
+    metadata:
+      description: "Cell2Fire火灾蔓延仿真模型"
+      category: "fire_simulation"
+      tools:
+        - wildfire_simulation
+        - fire_spread_analysis
+        - evacuation_planning
+
+  aurora:
+    type: conda
+    host: /data/Tiaozhanbei/aurora-main
+    port: 8006
+    environment: aurora
+    enabled: true
+    health_check_url: http://localhost:8006/health
+    timeout: 240
+    retry_count: 3
+    metadata:
+      description: "Aurora极光预测模型"
+      category: "space_weather"
+      tools:
+        - aurora_forecast
+        - geomagnetic_activity
+        - solar_wind_analysis
+
+  postgis_data:
+    type: external
+    host: localhost
+    port: 8007
+    enabled: true
+    health_check_url: http://localhost:8007/health
+    timeout: 60
+    retry_count: 3
+    metadata:
+      description: "PostGIS地理空间数据服务"
+      category: "spatial_data"
+      tools:
+        - spatial_query
+        - raster_analysis
+        - data_import
+        - data_export
+        - spatial_index
+
+  filesystem:
+    type: external
+    host: localhost
+    port: 8008
+    enabled: true
+    health_check_url: http://localhost:8008/health
+    timeout: 120
+    retry_count: 3
+    metadata:
+      description: "文件系统管理服务"
+      category: "file_management"
+      tools:
+        - read_file
+        - write_file
+        - list_directory
+        - create_directory
+        - delete_file
+
+# 共享目录配置
+shared_directories:
+  host_base: /data/Tiaozhanbei/shared
+  container_base: /shared
+  climada: climada
+  lisflood: lisflood
+  aurora: aurora
+  pangu_weather: pangu_weather
+  nfdrs4: nfdrs4
+  cell2fire: cell2fire
+  temp: temp
+  cache: cache
+
+# 数据库配置
+database:
+  host: localhost
+  port: 5432
+  name: zs_data
+  user: zs_zzr
+  password: 373291Moon
+  pool_size: 10
+  max_overflow: 20
+
+# Redis配置
+redis:
+  host: localhost
+  port: 6379
+  db: 0
+  password: ""
+  connection_pool_size: 10
+
+# 任务处理配置
+task_processing:
+  max_concurrent: 5
+  timeout: 300
+  max_retries: 3
+  retry_delay: 5
+  batch_size: 10
+
+# 监控配置
+monitoring:
+  prometheus_port: 9090
+  grafana_port: 3000
+  log_level: INFO
+  metrics_interval: 30

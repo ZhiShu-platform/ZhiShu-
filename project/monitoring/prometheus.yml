@@ -1,0 +1,101 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # 监控PostgreSQL数据库
+  - job_name: 'postgresql'
+    static_configs:
+      - targets: ['localhost:5432']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # 监控Redis
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['localhost:6379']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # 监控MCP服务
+  - job_name: 'mcp-climada'
+    static_configs:
+      - targets: ['localhost:8001']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'mcp-lisflood'
+    static_configs:
+      - targets: ['localhost:8002']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'mcp-pangu-weather'
+    static_configs:
+      - targets: ['localhost:8003']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'mcp-nfdrs4'
+    static_configs:
+      - targets: ['localhost:8004']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'mcp-cell2fire'
+    static_configs:
+      - targets: ['localhost:8005']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'mcp-aurora'
+    static_configs:
+      - targets: ['localhost:8006']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'mcp-postgis'
+    static_configs:
+      - targets: ['localhost:8007']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  - job_name: 'mcp-filesystem'
+    static_configs:
+      - targets: ['localhost:8008']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # 监控主应用
+  - job_name: 'emergency-management-app'
+    static_configs:
+      - targets: ['localhost:2024']
+    metrics_path: /metrics
+    scrape_interval: 30s
+
+  # 监控系统资源
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['localhost:9100']
+    scrape_interval: 15s
+
+  # 监控Docker容器
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['localhost:9323']
+    scrape_interval: 30s
+
+# 告警规则配置
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# 规则文件配置
+rule_files:
+  - "alert_rules.yml"

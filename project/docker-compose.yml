@@ -1,0 +1,144 @@
+version: '3.8'
+
+services:
+  # Pangu-Weather 容器
+  pangu-weather:
+    image: pangu-weather:latest
+    container_name: pangu-weather
+    environment:
+      - PYTHONPATH=/pangu
+      - CONTAINER_SHARED_DIR=${CONTAINER_SHARED_DIR:-/shared}
+    volumes:
+      - ${HOST_SHARED_DIR:-/data/Tiaozhanbei/shared}:${CONTAINER_SHARED_DIR:-/shared}:rw
+      - ${PANGU_HOST:-/data/Tiaozhanbei/Pangu_weather}:/pangu:ro
+    ports:
+      - "8003:8000"
+    command: ["python", "/pangu/container_listener.py"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # NFDRS4 容器
+  nfdrs4:
+    image: nfdrs4:latest
+    container_name: nfdrs4
+    environment:
+      - PYTHONPATH=/NFDRS4
+      - CONTAINER_SHARED_DIR=${CONTAINER_SHARED_DIR:-/shared}
+    volumes:
+      - ${HOST_SHARED_DIR:-/data/Tiaozhanbei/shared}:${CONTAINER_SHARED_DIR:-/shared}:rw
+      - ${NFDRS4_HOST:-/data/Tiaozhanbei/NFDRS4}:/NFDRS4:ro
+    ports:
+      - "8004:8000"
+    command: ["python", "/NFDRS4/container_listener.py"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Cell2Fire 容器
+  cell2fire:
+    image: cell2fire:latest
+    container_name: cell2fire
+    environment:
+      - PYTHONPATH=/Cell2Fire
+      - CONTAINER_SHARED_DIR=${CONTAINER_SHARED_DIR:-/shared}
+    volumes:
+      - ${HOST_SHARED_DIR:-/data/Tiaozhanbei/shared}:${CONTAINER_SHARED_DIR:-/shared}:rw
+      - ${CELL2FIRE_HOST:-/data/Tiaozhanbei/Cell2Fire}:/Cell2Fire:ro
+    ports:
+      - "8005:8000"
+    command: ["python", "/Cell2Fire/container_listener.py"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Redis 服务
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL 服务
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=${DB_NAME:-zs_data}
+      - POSTGRES_USER=${DB_USER:-zs_zzr}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-373291Moon}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-zs_zzr} -d ${DB_NAME:-zs_data}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Prometheus 监控
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+
+  # Grafana 可视化
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+volumes:
+  redis_data:
+  postgres_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  default:
+    name: emergency_management_network
+    driver: bridge

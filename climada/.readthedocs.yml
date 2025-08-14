@@ -1,0 +1,27 @@
+version: 2
+
+sphinx:
+  configuration: doc/conf.py
+
+build:
+  os: "ubuntu-22.04"
+  tools:
+    python: "mambaforge-4.10"
+
+  # Append fixed Python version to requirements
+  jobs:
+    pre_create_environment:
+      - echo "  - python=3.11" >> requirements/env_climada.yml
+
+conda:
+  environment: requirements/env_climada.yml
+
+python:
+  install:
+    - method: pip
+      path: .
+      extra_requirements:
+        - doc
+
+formats:
+  - pdf

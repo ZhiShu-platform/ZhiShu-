@@ -1,0 +1,39 @@
+# Sample RunNFDRS configuration file
+# required to initialize RunNFDRS program
+# used by config2cpp.exe as follows:
+# config2cpp -cfg RunNFDRSSample.txt -class RunNFDRSConfig
+# NOTE short paths are used here, use of complete paths is recommended but not required
+initFile = "/NFDRSInitSample.txt";
+# required as input for processing
+wxFile = "/someWx.fw21";
+#NFDRSState saving and loading capabilities (optional)
+#loadFromState will load the state file and begin any calculations from the saved state
+#if no loadFromState is desired, use "";
+#e.g. loadFromState = "";
+loadFromStateFile = "/someSavedState.nfdrs";
+#saveToStateFile will save the state when calculation is complete to the indicated file
+#if no saveToStateFile is desired, use "";
+#e.g. saveToStateFile = "";
+saveToStateFile = "/newSavedState.nfdrs";
+# output files (csv) can be designated, otherwise nothing is output 
+# if they exist, they are appended to by the program
+# output files include a date/time and selected outputs
+#csv header is only written to the output file if the file is being created
+#all outputs available, includes fuel moistures and indexes
+allOutputsFile = "/NFDRSoutput.csv";
+#indexes only
+indexOutputFile = "/NFDRSIndexes.csv";
+#fuel moistures
+fuelMoisturesOutputFile = "/NFDRSMoistures.csv";
+#outputInterval 0 = hourly (each record), 1 = daily (at ObsHour from NFDRSInit file)
+outputInterval = "0";
+#Option to use stored outputs from previously run 'allOutputsFile' output 
+#causes NFDRS4 to bypass running of Nelson and GSI models, calculating indexes using stored NFDRS4 outputs
+#an error will be returned if 'wxFile' does not contain necessary fields
+#any record missing necessary any fields will be skipped
+useStoredOutputs = "0";
+#Added as required, 4/27/2024
+#to accomodate multiple stations in a single FW21 format file
+#stationID was added as a data element to FW21 and NFDRS4_cli config file
+#this stationID will be used when StationID is not present in FW21
+stationID = "some_stationID";

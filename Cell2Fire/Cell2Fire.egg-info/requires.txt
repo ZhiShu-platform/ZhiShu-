@@ -1,0 +1,12 @@
+numpy
+pandas
+matplotlib
+seaborn
+tqdm
+opencv-python
+networkx
+deap
+
+[doc]
+sphinx_rtd_theme
+sphinx

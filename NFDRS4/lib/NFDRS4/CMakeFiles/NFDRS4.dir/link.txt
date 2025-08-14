@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../libNFDRS4.a  CMakeFiles/NFDRS4.dir/src/deadfuelmoisture.cpp.o CMakeFiles/NFDRS4.dir/src/dfmcalcstate.cpp.o CMakeFiles/NFDRS4.dir/src/lfmcalcstate.cpp.o CMakeFiles/NFDRS4.dir/src/livefuelmoisture.cpp.o CMakeFiles/NFDRS4.dir/src/nfdrs4.cpp.o CMakeFiles/NFDRS4.dir/src/nfdrs4calcstate.cpp.o
+/usr/bin/ranlib ../libNFDRS4.a

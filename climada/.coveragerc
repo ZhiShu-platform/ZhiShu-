@@ -1,0 +1,17 @@
+# .coveragerc to control coverage.py
+
+[run]
+# skip test files
+omit =
+    */test*/*
+# Set concurrency type for correct coverage of multi-processing code
+concurrency = multiprocessing
+
+[paths]
+source = climada/
+
+[report]
+# Regexes for lines to exclude from consideration
+exclude_also =
+    # Main code is not run
+    if __name__ == .__main__.:

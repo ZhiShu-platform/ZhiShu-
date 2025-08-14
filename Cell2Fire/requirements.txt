@@ -1,0 +1,9 @@
+numpy
+scipy
+pandas
+matplotlib
+seaborn
+opencv-python
+tqdm
+deap
+sphinx_rtd_theme

@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../libutctime.a  CMakeFiles/utctime.dir/src/utctime.cpp.o
+/usr/bin/ranlib ../libutctime.a

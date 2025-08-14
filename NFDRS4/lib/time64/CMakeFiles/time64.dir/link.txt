@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../libtime64.a  CMakeFiles/time64.dir/src/time64.c.o
+/usr/bin/ranlib ../libtime64.a

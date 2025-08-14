@@ -1,0 +1,30 @@
+# Core dependencies
+fastapi>=0.104.0
+uvicorn>=0.24.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+
+# LangGraph and LangChain
+langgraph>=0.0.40
+langchain>=0.1.0
+langchain-openai>=0.0.5
+
+# Langfuse integration
+langfuse>=2.0.0
+
+# Database
+asyncpg>=0.29.0
+
+# MCP (Model Context Protocol)
+mcp>=1.0.0
+
+# Utilities
+asyncio-mqtt>=0.16.0
+aiofiles>=23.0.0
+python-multipart>=0.0.6
+
+# Development and testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
