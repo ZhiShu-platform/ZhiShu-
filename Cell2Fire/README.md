@@ -61,7 +61,13 @@ FIRMS数据集：点火点生成文件，命名为fire_archive_M-C61_106125.csv
 
 我们的脚本分为两部分：您可以先运行prepare_run_caijian.py，这是对输入数据的准备；接着运行run_simulation.py，这是我们的主要运行脚本。里面包含了Cell2Fire运行的命令行，您只需运行后耐心等待。注：若您遇到段错
 
-误问题，很大可能是由于内存不足导致的。
+误问题，很大可能是由于内存不足导致的。同时，您需要将脚本中的路径改为您的实际路径。
+
+或者您可以直接使用网盘中的数据，按以下方法运行：
+
+export PYTHONPATH=$PYTHONPATH:/data/Tiaozhanbei/Cell2Fire/Cell2Fire-main/
+
+python cell2fire/main.py --input-instance-folder Input_Landscape/ --output-folder Input_Landscape/output_cell2fire/ --ignitions --sim-years 1 --nsims 150 --finalGrid --nweathers 1 --Fire-Period-Length 0.041666666666666664 --output-messages --ROS-CV 0.0 --seed 123 --stats --allPlots --IgnitionRad 10 --grids --combine
 
 # 网盘文件说明
 网盘内含Input_Landscape文件夹，内含所有的输入文件，output_cell2fire是测试数据输出文件夹。
