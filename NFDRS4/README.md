@@ -38,9 +38,11 @@ NFDRS4进行火灾风险预测的输入文件主要包含以下部分：
 
 链接: https://pan.baidu.com/s/1Ny9FALH0NzQ90R2om3-iqQ?pwd=2025 提取码: 2025 
 
-运行prepare_data_for_nfdrs.py来处理输入数据
+运行prepare_data_for_nfdrs.py来处理输入数据，注意把文件中的路径改为实际路径
 
 运行NFDRS运行命令：./NFDRS4_cli  RunNFDRS_Palisades.txt
+
+或直接利用网盘中的数据运行命令行
 
 等待运行结果
 
