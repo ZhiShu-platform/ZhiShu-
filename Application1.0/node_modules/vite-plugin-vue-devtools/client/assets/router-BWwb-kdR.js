@@ -1,0 +1,1 @@
+import{d as n,p as c,i as o,e as p,o as u,u as t,j as i}from"./index-Dwf2ZVS8.js";/* empty css              */const f=n({__name:"router",setup(d){const{registeredInspector:r}=c(),s=o(()=>r.value?.find(e=>e.packageName==="vue-router")),a=o(()=>s.value?.id);return(e,m)=>(u(),p(t(i),{id:t(a)},null,8,["id"]))}});export{f as default};

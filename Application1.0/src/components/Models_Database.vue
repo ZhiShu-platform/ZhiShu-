@@ -23,7 +23,7 @@
                     <div v-else
                          class="model-card"
                          :id="'model-card-' + sub.id"
-                         :class="{ 'clickable': sub.id === 'wf-a' }"
+                         :class="{ 'clickable': sub.id === 'wf-a' || sub.id === 'wf-farsite' }"
                          @click="handleModelCardClick(sub)">
                         <div class="model-title">{{ sub.title }}</div>
                         <div class="model-desc">{{ sub.desc }}</div>
@@ -56,8 +56,9 @@ export default {
                     subs: [
                         { id: 'wf-a', title: 'Climada', desc: '加州地区的灾损统计和评估' },
                         { id: 'wf-b', title: 'Cell2Fire', desc: '支持实时火势监测与蔓延趋势分析。' },
-                        
-
+                        // --- 新增Farsite模型 ---
+                        { id: 'wf-farsite', title: 'Farsite', desc: '基于物理学的多维度火灾蔓延模拟系统。' },
+                        { id: 'wf-d', title: 'NFDRS4', desc: 'National Fire Danger Rating System 4.0' },
                     ]
                 },
                 {
@@ -95,16 +96,19 @@ export default {
                 { id: 'ds-05', name: '全球人类居住层 (GHSL)', disasterTypes: ['通用', '野火', '地震', '洪水'], description: '全球高精度人口分布格网数据，用于评估灾害影响范围和人口暴露。', source: 'JRC/GHSL', updateFrequency: '周期性', resolution: '30米 - 1公里', poweredModels: ['wf-d', 'eq-b', 'fl-b', 'hu-c'] },
                 { id: 'ds-06', name: '全球预报系统 (GFS)', disasterTypes: ['野火', '洪水', '飓风'], description: '全球数值天气预报模型，提供风、温、压等关键气象变量。', source: 'NOAA', updateFrequency: '每6小时', resolution: '0.25度', poweredModels: ['wf-a', 'fl-a', 'hu-a'] },
                 { id: 'ds-07', name: '土地覆盖类型 (CCI-LC)', disasterTypes: ['野火', '洪水'], description: '全球土地覆盖分类数据，用于评估不同地表的火灾风险和洪水径流。', source: 'ESA', updateFrequency: '每年', resolution: '300米', poweredModels: ['wf-a', 'fl-a'] },
-                { id: 'ds-08', name: '物联网实时环境感知数据', disasterTypes: ['野火', '洪水'], description: '来自部署在关键区域的传感器网络的实时环境与设施状态数据。', source: '内部物联网平台', updateFrequency: '实时', resolution: '站点级', poweredModels: ['wf-c', 'fl-c'] }
+                { id: 'ds-08', name: '物联网实时环境感知数据', disasterTypes: ['野火', '洪水'], description: '来自部署在关键区域的传感器网络的实时环境与设施状态数据。', source: '内部物联网平台', updateFrequency: '实时', resolution: '站点级', poweredModels: ['wf-c', 'fl-c'] },
+                // --- 新增RAWS数据集 ---
+                { id: 'ds-09', name: 'RAWS 气象站数据', disasterTypes: ['野火', '通用'], description: '远程自动气象站网络，为火灾管理、科学研究和日常气象监测提供包括风速、风向、气温、湿度和燃料含水率等关键数据。', source: '美国林务局等', updateFrequency: '每小时或更频繁', resolution: '站点级', poweredModels: [] }
             ]
         }
     },
     methods: {
-        // 新增方法：处理模型卡片的点击事件
         handleModelCardClick(subModel) {
-            // 只对 ID 为 'wf-a' (Cell2Fire) 的卡片进行导航
+            // 对 ID 为 'wf-a' (Climada) 或 'wf-farsite' (Farsite) 的卡片进行导航
             if (subModel.id === 'wf-a') {
                 this.$router.push('/model/' + subModel.id);
+            } else if (subModel.id === 'wf-farsite') {
+                this.$router.push('/model/wf-farsite');
             }
         },
         highlightModel(modelId) {

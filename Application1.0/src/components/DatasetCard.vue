@@ -5,7 +5,6 @@
       <h4 class="dataset-title">{{ dataset.name }}</h4>
     </div>
 
-    <!-- 新增：灾害类型标签 -->
     <div class="disaster-tags-container">
         <span v-for="disaster in dataset.disasterTypes" :key="disaster" :class="['disaster-tag', getDisasterClass(disaster)]">
             {{ disaster }}
@@ -36,7 +35,7 @@
     </div>
     
     <div class="card-footer">
-        <button class="details-btn">查看详情</button>
+        <button v-if="dataset.id === 'ds-09'" class="details-btn" @click="goToDetails">查看详情</button>
     </div>
   </div>
 </template>
@@ -48,8 +47,6 @@ export default {
     dataset: {
       type: Object,
       required: true
-      // 注意：此组件现在期望 dataset 对象包含一个名为 'disasterTypes' 的数组。
-      // 例如: { ..., disasterTypes: ['野火', '通用'] }
     },
     models: {
       type: Array,
@@ -57,16 +54,14 @@ export default {
     }
   },
   computed: {
-    // 将 categoryIcon 重命名并更新为 disasterIcon
     disasterIcon() {
       const icons = {
         '野火': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M12 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" opacity="0.5"></path><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="currentColor"></path></svg>`,
         '地震': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3-9 6 18 3-9h3"></path></svg>`,
         '洪水': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l4 6-4 6"></path><path d="M10 7l4 6-4 6"></path><path d="M17 7l4 6-4 6"></path></svg>`,
         '飓风': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H3v2l6.29 6.29L3 18v2h18v-2l-6.29-6.29L21 6V4z"></path></svg>`,
-        '通用': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 12H18c-.7 2.3-2.1 4.3-4.1 5.9"></path><path d="M2.5 12H6c.7 2.3 2.1 4.3 4.1 5.9"></path><path d="M12 2.5V6c-2.3.7-4.3 2.1-5.9 4.1"></path><path d="M12 21.5V18c-2.3-.7-4.3-2.1-5.9-4.1"></path><path d="M12 2.5V6c2.3.7 4.3 2.1 5.9 4.1"></path><path d="M12 21.5V18c2.3-.7 4.3-2.1 5.9-4.1"></path><path d="M2.5 12H6c-.7-2.3-2.1-4.3-4.1-5.9"></path><path d="M21.5 12H18c.7-2.3 2.1-4.3 4.1-5.9"></path></svg>`
+        '通用': `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 12H18c-.7 2.3-2.1 4.3-4.1 5.9"></path><path d="M2.5 12H6c.7 2.3 2.1 4.3 4.1 5.9"></path><path d="M12 2.5V6c-2.3.7-4.3 2.1-5.9 4.1"></path><path d="M12 21.5V18c-2.3-.7-4.3-2.1-5.9-4.1"></path><path d="M12 2.5V6c2.3.7 4.3 2.1 5.9 4.1"></path><path d="M12 21.5V18c2.3-.7-4.3-2.1-5.9-4.1"></path><path d="M2.5 12H6c-.7-2.3-2.1-4.3-4.1-5.9"></path><path d="M21.5 12H18c.7-2.3 2.1-4.3 4.1-5.9"></path></svg>`
       };
-      // 如果数据集有灾害类型，则使用第一个类型的图标，否则使用通用图标
       if (this.dataset.disasterTypes && this.dataset.disasterTypes.length > 0) {
         return icons[this.dataset.disasterTypes[0]] || icons['通用'];
       }
@@ -74,6 +69,12 @@ export default {
     }
   },
   methods: {
+    // 新增方法，用于跳转到详情页
+    goToDetails() {
+        if (this.dataset && this.dataset.id) {
+            this.$router.push(`/dataset/${this.dataset.id}`);
+        }
+    },
     getModelName(modelId) {
       for (const mainModel of this.models) {
         const foundSub = mainModel.subs.find(sub => sub.id === modelId);
@@ -86,7 +87,6 @@ export default {
     onModelClick(modelId) {
       this.$emit('model-link-click', modelId);
     },
-    // 新增：根据灾害类型获取对应的CSS类，用于颜色区分
     getDisasterClass(disasterType) {
       const mapping = {
         '野火': 'wildfire',
@@ -102,6 +102,7 @@ export default {
 </script>
 
 <style scoped>
+/* 样式无需改动，保持原样 */
 .dataset-card {
   background: #fff;
   border: 1px solid #e0e6ed;
@@ -132,14 +133,12 @@ export default {
   color: #333;
   margin: 0;
 }
-/* 新增：灾害类型标签容器样式 */
 .disaster-tags-container {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 12px;
 }
-/* 新增：单个灾害标签样式 */
 .disaster-tag {
     padding: 3px 10px;
     border-radius: 12px;
@@ -148,12 +147,11 @@ export default {
     color: #fff;
     line-height: 1.4;
 }
-/* 新增：灾害标签颜色 */
-.tag-wildfire { background-color: #FF9500; } /* 橙色 */
-.tag-earthquake { background-color: #A2845E; } /* 棕色 */
-.tag-flood { background-color: #007AFF; } /* 蓝色 */
-.tag-hurricane { background-color: #5856D6; } /* 紫色 */
-.tag-generic { background-color: #8E8E93; } /* 灰色 */
+.tag-wildfire { background-color: #FF9500; }
+.tag-earthquake { background-color: #A2845E; }
+.tag-flood { background-color: #007AFF; }
+.tag-hurricane { background-color: #5856D6; }
+.tag-generic { background-color: #8E8E93; }
 
 .dataset-description {
   font-size: 14px;

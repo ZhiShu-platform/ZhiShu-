@@ -3,8 +3,10 @@ import HomePage from '../components/HomePage.vue';
 import MainContent from '../components/MainContent.vue';
 import Models_Database from '@/components/Models_Database.vue';
 import ModelDetail from '@/components/ModelDetail.vue';
-// 1. 导入新的使用说明组件
 import UsageInstructions from '@/components/UsageInstructions.vue';
+import FarsiteDetail from '@/components/FarsiteDetail.vue';
+// 1. 导入新的RAWS详情组件
+import RawsDetail from '@/components/RawsDetail.vue';
 
 const routes = [
   {
@@ -28,7 +30,17 @@ const routes = [
     component: ModelDetail,
     props: true 
   },
-  // 2. 为使用说明页添加新的路由规则
+  {
+    path: '/model/wf-farsite',
+    name: 'FarsiteDetail',
+    component: FarsiteDetail,
+  },
+  // 2. 为RAWS详情页添加新的路由规则
+  {
+    path: '/dataset/ds-09', // 使用数据集的唯一ID作为路径
+    name: 'RawsDetail',
+    component: RawsDetail,
+  },
   {
     path: '/usage-instructions',
     name: 'UsageInstructions',

@@ -28,7 +28,7 @@ export default {
           { id: 4, name: '气象模型', description: '全球气象监测', featured: false, icon: `<svg viewBox="0 0 100 100"><path d="M50,50 m-40,0 a40,40 0 1,0 80,0 a40,40 0 1,0 -80,0" fill="none" stroke="#AF52DE" stroke-width="3"></path><path d="M50,50 m-20,0 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0" fill="#AF52DE" opacity="0.4"></path></svg>` },
       ],
       specificModels: {
-        1: [{ id: 'wf-a', name: 'Cell2Fire' }, { id: 'wf-b', name: 'Climada' }],
+        1: [{ id: 'wf-a', name: 'Cell2Fire' }, { id: 'wf-b', name: 'Climada' }, { id: 'wf-d', name: 'NFDRS4' }],
         2: [{ id: 'eq-a', name: '地震A' }, { id: 'eq-b', name: '地震B' }],
         3: [{ id: 'fl-a', name: 'Lisflood' }, { id: 'fl-b', name: '洪水B' }],
         4: [{ id: 'hu-a', name: 'Aurora' }]
