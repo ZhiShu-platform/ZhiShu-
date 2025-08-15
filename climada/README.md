@@ -4,77 +4,55 @@
 
 # CLIMADA
 
-[CLIMADA](https://climada.ethz.ch/climada/) (CLIMate ADAptation) is a free and open-source software framework for climate risk assessment and adaptation
-option appraisal. Designed by a large scientific community, it helps reasearchers, policymakers, and businesses analyse the impacts of natural hazards and
-explore adaptation strategies.
+CLIMADA（CLIMate ADAptation）是一个免费的开源软件框架，用于气候风险评估和适应方案评估。它由一个庞大的科学界共同设计，旨在帮助研究人员、政策制定者和企业分析自然灾害的影响并探索适应策略。
 
-As of today, CLIMADA provides global coverage of major climate-related extreme-weather hazards at high resolution (4x4km) via a [data API](https://climada.ethz.ch/data-api/v1/docs) For select hazards, historic and probabilistic events sets, for past, present and future climate exist at distinct time horizons.
-You will find a repository containing scientific peer-reviewed articles that explain software components implemented in CLIMADA [here](https://github.com/CLIMADA-project/climada_papers).
+截至目前，CLIMADA 通过数据 API提供高分辨率（4x4 公里）的全球主要气候相关极端天气灾害覆盖。对于特定灾害，在不同时间范围内存在针对过去、现在和未来气候的历史事件集和概率事件集。您可以在此处找到一个包含科学同行
 
-CLIMADA is divided into two parts (two repositories):
+评审文章的存储库，这些文章解释了 CLIMADA 中实现的软件组件。
 
-1. the core [climada_python](https://github.com/CLIMADA-project/climada_python) contains all the modules necessary for the probabilistic impact, the averted damage, uncertainty and forecast calculations. Data for hazard, exposures and impact functions can be obtained from the [data API](https://github.com/CLIMADA-project/climada_python/blob/main/doc/tutorial/climada_util_api_client.ipynb). [Litpop](https://github.com/CLIMADA-project/climada_python/blob/main/doc/tutorial/climada_entity_LitPop.ipynb) is included as demo Exposures module, and [Tropical cyclones](https://github.com/CLIMADA-project/climada_python/blob/main/doc/tutorial/climada_hazard_TropCyclone.ipynb) is included as a demo Hazard module.
-2. the petals [climada_petals](https://github.com/CLIMADA-project/climada_petals) contains all the modules for generating data (e.g., TC_Surge, WildFire, OpenStreeMap, ...). Most development is done here. The petals builds-upon the core and does not work as a stand-alone.
+CLIMADA 分为两部分（两个存储库）：
+1.核心climada_python包含概率影响、避免损害、不确定性和预测计算所需的所有模块。灾害、暴露和影响函数的数据可以通过数据 API 获取。Litpop包含在演示暴露模块中，热带气旋包含在演示灾害模块中。
 
-It is recommend for new users to begin with the core (1) and the [tutorials](https://github.com/CLIMADA-project/climada_python/tree/main/doc/tutorial) therein.
+2.花瓣climada_petals包含所有用于生成数据的模块（例如 TC_Surge、WildFire、OpenStreeMap 等）。大部分开发工作都在这里完成。花瓣构建于核心之上，不能独立运行。
 
-This is the Python (3.9+) version of CLIMADA - please see [here](https://github.com/davidnbresch/climada) for backward compatibility with the MATLAB version.
+建议新用户从核心（1）及其教程开始。
 
-## Getting started
+## 环境部署
 
-CLIMADA runs on Windows, macOS and Linux.
-The released versions of CLIMADA are available from [conda-forge](https://anaconda.org/conda-forge/climada).
-Use the [Mamba](https://mamba.readthedocs.io/en/latest/) package manager to install it:
+Climada无复杂环境要求，我们选择将climada部署在conda环境中，并且使用jupyter notebook运行脚本文件。
 
-```shell
-mamba install -c conda-forge climada
-```
+## 输入文件
 
-It is **highly recommended** to install CLIMADA into a **separate** Conda environment.
-See the [installation guide](https://climada-python.readthedocs.io/en/latest/guide/install.html) for further information.
+Climada进行火灾灾损计算的数入文件主要包含三部分：
+BlackMarble数据集：该数据集是夜间灯光数据集，命名为BlackMarble_2016_A1_geo_gray.tif的四个栅格数据。
 
-Follow the [tutorials](https://climada-python.readthedocs.io/en/stable/tutorial/1_main_climada.html) in a Jupyter Notebook to see what can be done with CLIMADA and how.
+GPW全球人口网格数据集：命名为gpw-v4-population-count-rev11_2020_30_sec_tif的栅格数据。
 
-## Documentation
+FIRMS数据集：该数据集是NASA遥感数据集，用于生成起火点文件。命名为fire_archive_M-C61_106125.csv的文件。
 
-The online documentation is available on [Read the Docs](https://climada-python.readthedocs.io/en/stable/).The documentation of each release version of CLIMADA can be accessed separately through the drop-down menu at the bottom of the left sidebar. Additionally, the version 'stable' refers to the most recent release (installed via `conda`), and 'latest' refers to the latest unstable development version (the `develop` branch).
+## 运行说明
 
-CLIMADA python:
+首先安装climada-python仓库，使用的是climada的最新版本，特别注意：climada在之前的版本更新后被分为了两个部分，用户在使用脚本前务必下载climada_petals仓库，一个方法是在命令行界面输入：pip install climada_petals。
 
-- [online (recommended)](https://climada-python.readthedocs.io/en/latest/)
-- [PDF file](https://climada-python.readthedocs.io/_/downloads/en/stable/pdf/)
-- [core Tutorials on GitHub](https://github.com/CLIMADA-project/climada_python/tree/main/doc/tutorial)
+接着从以下网盘中获取输入数据：
+通过网盘分享的文件：data等3个文件
+链接: https://pan.baidu.com/s/1nKBwmlfDEGO9s7XLLuuL5g?pwd=2025 提取码: 2025
 
-CLIMADA petals:
+并且获取运行脚本：run_climada.ipynb，将脚本文件中的文件路径更改为实际路径。
 
-- [online (recommended)](https://climada-petals.readthedocs.io/en/latest/)
-- [PDF file](https://climada-petals.readthedocs.io/_/downloads/en/stable/pdf/)
-- [petals Tutorials on GitHub](https://github.com/CLIMADA-project/climada_petals/tree/main/doc/tutorial)
+运行脚本就可以得到最终结果。
 
-The documentation can also be [built locally](https://climada-python.readthedocs.io/en/latest/README.html).
+## 网盘文件说明
 
-## Citing CLIMADA
+网盘共包含三个文件夹：
+climadaresults：包含了脚本文件和这个脚本文件的所有图形化输出结果
 
-See the [Citation Guide](https://climada-python.readthedocs.io/en/latest/misc/citation.html).
+data：包含了进行火灾灾损计算的全部数据集以及climada自带的其他数据集
 
-Please use the following logo if you are presenting results obtained with or through CLIMADA:
+demo：一个climada的示例输入文件夹
 
-![https://github.com/CLIMADA-project/climada_python/blob/main/doc/guide/img/CLIMADA_logo_QR.png](https://github.com/CLIMADA-project/climada_python/blob/main/doc/guide/img/CLIMADA_logo_QR.png?raw=true)
+若用户想要了解更多有关climada的信息，可以阅读climada的官方文档等，climada_python的仓库链接为：
 
-## Contributing
+https://github.com/CLIMADA-project/climada_python.git
 
-We welcome any contribution to this repository, be it bugfixes and other code changes and additions, documentation improvements, or tutorial updates.
 
-If you would like to contribute, please refer to our [Contribution Guide](CONTRIBUTING.md).
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [releases on this repository](https://github.com/CLIMADA-project/climada_python/releases).
-
-## License
-
-Copyright (C) 2017 ETH Zurich, CLIMADA contributors listed in AUTHORS.
-
-CLIMADA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License Version 3, 29 June 2007 as published by the Free Software Foundation, <https://www.gnu.org/licenses/gpl-3.0.html>
-
-CLIMADA is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details: <https://www.gnu.org/licenses/gpl-3.0.html>

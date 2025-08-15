@@ -1,87 +1,54 @@
 
 # NFDRS4 - National Fire Danger Rating System 4.0
-The repository houses the source code for the US National Fire Danger Rating System Version 4.0.
-The source code provides access to the Command Line Interface as well as SWIG wrappers to build Python libraries.  It also provides documentation on the formats of the inputs for the CLI was well as an FW13 to FW21 weather data file converter.
+该存储库包含美国国家火灾危险评级系统 4.0 版的源代码。源代码提供对命令行界面 (CLI) 以及用于构建 Python 库的 SWIG 包装器的访问。它还提供了 CLI 输入格式的文档以及 FW13 到 FW21 天气数据文件转换器。
 
-The model documentation can be found here:
-[Modernizing the US National Fire Danger Rating System (version 4): Simplified fuel models and improved live and dead fuel moisture calculations](https://www.sciencedirect.com/science/article/pii/S1364815224002421)
+该库提供了 NFDRS 版本 4.0 的所有源代码，包括 Nelson 死燃料水分模型、基于生长季节指数的活燃料水分模型和 NFDRS 计算器。
 
-## Multiplatform source for NFDRS4 static library
-This library provides all of the source code for NFDRS Version 4.0 including the Nelson Dead Fuel Moisture Model, the Growing Season Index-based Live Fuel Moisture Model and the NFDRS calculator.
+还生产两个应用程序：FireWxConverter 和 NFDRS4_cli（命令行界面）。
 
-Also produces two apps: the FireWxConverter and the NFDRS4_cli (command line interface). 
+FireWxConverter 将 FW13 火灾天气数据文件转换为 FW21 火灾天气数据文件，NFDRS4_cli 从 FW21 火灾天气数据文件中生成活燃料和死燃料水分以及 NFDRS 索引。
 
-FireWxConverter, which converts FW13 fire weather data files to FW21 fire weather data files
-NFDRS4_cli produces live and dead fuel moistures as well as NFDRS indexes from FW21 fire weather data files.
+## 环境部署
+我们使用docker容器进行部署。
 
-### Dependencies:
+NFDRS4依赖项较少，其是由他的命令行工具软件进行运行的。一个构建其命令行软件的方法如下：
 
-*CMAKE NFDRS4* - requires CMAKE version 3.8 or higher
+sudo apt-get install build-essential cmake
 
-*Config4cpp* - see http://www.config4star.org/
- Config4cpp is used by NFDRS4 for defining configuration files for NFDRS4_cli and NFDRS4 initialization (station) parameters. 
- Complete source for config4cpp is included in the 'extern' directory, and must be built via makefiles to produce a static config4cpp library which is neccessary to build NFDRS4_cli executable.
+cmake ..
 
-*utctime* - see http://paulgriffiths.github.io/utctime/documentation/index.html
- UTCTime class is used for handling time in NFDRS4. Complete source is in the lib/utctime directory
+make
 
-License - NFDRS4 is public domain software, still under development at this time.
+## 输入数据
 
-Building NFDRS4_cli
- Run CMAKE and provide entries for CONFIG4CPP_DIR (directory containing config4cpp include files) and CONFIG4CPP_LIB (directory containing config4cpp.lib)
- Rerun CMAKE and run make
+NFDRS4进行火灾风险预测的输入文件主要包含以下部分：
 
+海拔、坡向、坡度：作为地形数据输入
 
-## Building in MS Windows
-Building for MS Windows has been tested with MS Visual Studio 2022
-*Steps*<br>
-*Build config4cpp*<br>
-Build config4cpp.lib is easiest accomplished by use of the x64 Native Tools Command Prompt for VS 2022.<br>
-Open the x64 Native Tools Command Prompt for VS 2022, navigate to the NFDRS4/extern/config4cpp directory and enter: ```nmake -f Makefile.win all64```<br> 
-This should produce config4cpp.lib static library in NFDRS4/extern/config4cpp/lib<br><br>
-Navigate back to the root NFDRS4 directory<br>
-Run ```cmake -G "NMake Makefiles" .```<br>
-*If you haven't already done so, edit the entries for CONFIG4CPP_DIR and CONFIG4CPP_LIB in CMakeCache.txt*<br>
-Example:<br>
-//Path to a file.<br>
-CONFIG4CPP_DIR:PATH=S:/src/NFDRS4/extern/config4cpp/include<br>
+燃料模型数据
 
-//Path to a library.<br>
-CONFIG4CPP_LIB:FILEPATH=S:/src/NFDRS4/extern/config4cpp/lib/config4cpp.lib*<br>
+天气数据：包含了降水、气温、风速、风向、太阳辐射、降雪量和相对湿度等输入数据。
 
-Rerun ```cmake -G "NMake Makefiles" .```, there should be no errors<br>
-Run ```nmake```<br><br>
+## 运行说明
+首先创建NFDRS的命令行运行软件。
 
-## Build NFDRS4 from Visual Studio 2022
-In Visual Studio 2022, open the NFDRS4 folder and NFDRS4 will load as a CMake project<br>
-Select Project - CMake Settings for NFDRS4<br>
-Create a Configuration for x64-Release<br>
-Save the settings, Cmake will run
-Populate the entry in CMakeSettings.json for CONFIG4CPP_DIR 
-	(should be <repo location>/NFDRS4/extern/config4cpp/include where <repo location> is the Drive and folder where the NFDRS4 repository is located)
-	e.g. D:/Repos/NFDRS4/extern/config4cpp/include
-Populate the entry in CmakeSettings.json for CONFIG4CPP_LIB
-	(should be <repo location>/NFDRS4/extern/config4cpp/lib/config4cpp.lib)
-	e.g. D:/Repos/NFDRS4/extern/config4cpp/lib/config4cpp.lib
-Save CMakeSettings.json, CMake will run and there should be no errors
+从以下网盘链接中获取输入数据：
 
-Select Build - Build All
-Select Build - Install NFDRS4
-	- this will create an install folder for X64-Release with necessary include and lib files to use NFDRS4 and fw21 with applications, as well as executables
-	NFDRS4_cli.exe and FireWxConverter.exe
+通过网盘分享的文件：NFDRS4
 
-## Building NFDRS4 for Linux
-After extracting the repository, navigate to the NFDRS4/external/config4cpp directory in a Terminal window, and run ```make```<br>
-This will create config4cpp.a in NFDRS/external/lib
+链接: https://pan.baidu.com/s/1Ny9FALH0NzQ90R2om3-iqQ?pwd=2025 提取码: 2025 
 
-Navigate back to the NFDRS4 directory. run: ```cmake .```<br>
-Fill in or add entries for CONFIG4CPP_DIR and CONFIG4CPP_LIB
-e.g.
-CONFIG4CPP_DIR:PATH=/home/<user>/src/NFDRS4/extern/config4cpp/include
-CONFIG4CPP_LIB:FILEPATH=/home/<user>/src/NFDRS4/extern/config4cpp/lib/libconfig4cpp.a
+运行prepare_data_for_nfdrs.py来处理输入数据，注意把文件中的路径改为实际路径
 
-Build the repository:
-run ```make```
+运行NFDRS运行命令：./NFDRS4_cli  RunNFDRS_Palisades.txt
 
-Install the repository:
-run ```sudo make install```
+或直接利用网盘中的数据运行命令行
+
+等待运行结果
+
+## 网盘数据说明
+内含InputFile文件夹，包含所有输入输出数据和数据准备脚本，其中prepare_data_for_nfdrs.py是数据准备脚本，Palisades_NFDRS_Output.csv为示例输出。
+
+若用户想要了解更多有关NFDRS4的信息，可以阅读NFDRS4的官方文档等，NFDRS4的仓库链接为：
+
+https://github.com/firelab/NFDRS4.git
